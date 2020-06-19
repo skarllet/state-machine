@@ -1,4 +1,4 @@
-![Node.js Package](https://github.com/snkrs-loop/queue/workflows/Node.js%20Package/badge.svg)
+![Node.js Package](https://github.com/snkrs-loop/state-machine/workflows/Node.js%20Package/badge.svg)
 
 # State Machine
 This module is destinated to manage the state of the bot;
