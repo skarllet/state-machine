@@ -20,19 +20,17 @@ npm install @snkrs-loop/state-machine
 // To use the module inside node JS
 const StateMachine = require('@snkrs-loop/state-machine')
 
-// Create a Queue
-
-// Events states the functions that should be called in the order specified
+// Define the states
 const states = {
-  'state:foo': async ({ change }) => { /* do something boty*/ },
-  'state:bar': async ({ change }) => { /* do something boty*/ },
-  ...createState('state:baz', events),
-}
+  'state:foo': async ({ change }) => change('state:bar'),
+  'state:bar': async () => {},
+};
 
-//
+// Create the State Machine instance,
+// passing down the states object
 const sm = StateMachine.create(states);
 
-// Initialize the chain effect
+// Bootstrap the events by changing the first state
 sm.change('state:foo');
 
 ```
