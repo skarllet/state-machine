@@ -1,6 +1,11 @@
 module.exports = {
-  create: (states = {}) => {
+  create: () => {
+    const states = {}
+
+    const add = (name, handler) => states[name] = handler
+
     const change = to => states[to]({ change })
-    return { change }
+
+    return { add, change }
   }
 }

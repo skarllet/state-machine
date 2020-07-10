@@ -24,26 +24,26 @@ describe('StateMachine', () => {
   });
 
   describe('Tests the functionality of the created State Machine', () => {
-    // Define the states
-    const states = {
-      'state:foo': jest.fn(async ({ change }) => change('state:bar')),
-      'state:bar': jest.fn(async () => {}),
-    };
-
     // Create the State Machine instance,
-    // passing down the states object
-    const sm = StateMachine.create(states);
+    const sm = StateMachine.create();
+
+    // Define the states
+    const cbA = jest.fn(async ({ change }) => change('state:bar'))
+    const cbB = jest.fn(async () => {})
+
+    sm.add('state:foo', cbA)
+    sm.add('state:bar', cbB)
 
     // Bootstrap the events by changing the first state
     sm.change('state:foo');
 
     describe('Tests the call of the states', () => {
       test('the state "state:foo" should be called one time', () => {
-        expect(states['state:foo'].mock.calls.length).toBe(1);
+        expect(cbA.mock.calls.length).toBe(1);
       });
   
       test('the state "state:bar" should be called one time', () => {
-        expect(states['state:bar'].mock.calls.length).toBe(1);
+        expect(cbB.mock.calls.length).toBe(1);
       });
     });
   });
