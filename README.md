@@ -20,15 +20,12 @@ npm install @skarllet/state-machine
 // To use the module inside node JS
 const StateMachine = require('@skarllet/state-machine')
 
-// Define the states
-const states = {
-  'state:foo': async ({ change }) => change('state:bar'),
-  'state:bar': async () => {},
-};
-
 // Create the State Machine instance,
-// passing down the states object
 const sm = StateMachine.create(states);
+
+// Define the states
+sm.add('state:foo', async ({ change }) => change('state:bar'))
+sm.add('state:bar', async () => {})
 
 // Bootstrap the events by changing the first state
 sm.change('state:foo');
