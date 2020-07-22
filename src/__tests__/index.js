@@ -17,9 +17,13 @@ describe('state machine', () => {
       expect(typeof sm).toBe('object')
     });
   
-    test('The object should have the property: change', () => {
+    test('The object should have the properties: on, add, change, states', () => {
       const sm = stateMachine.create();
+
+      expect(sm).toHaveProperty('on');
+      expect(sm).toHaveProperty('add');
       expect(sm).toHaveProperty('change');
+      expect(sm).toHaveProperty('states');
     });
   });
 
@@ -73,6 +77,23 @@ describe('state machine', () => {
 
       // dont start the chain reaction because we dont need it now
       expect(sm.states).toEqual(snapshot)
+    })
+  })
+
+  describe('Tests the `on` property', () => {
+    test('Should call the `change` event', done => {
+      const sm = stateMachine.create();
+      const state = 'state:foo'
+
+      sm.on('change', ({ payload: { to } }) => {
+        expect(to).toMatch(state)
+        done()
+      })
+
+      // Register valid states
+      sm.add(state, async () => {})
+
+      sm.change(state)
     })
   })
 });
