@@ -1,31 +1,31 @@
-const StateMachine = require('../index');
+const stateMachine = require('../index');
 
-describe('StateMachine', () => {
+describe('state machine', () => {
   describe('Checks the return of the module', () => {
     test('The Query object should have a "create" property', () => {
-      expect(StateMachine).toHaveProperty('create');
+      expect(stateMachine).toHaveProperty('create');
     });
 
     test('The "create" property should be an function', () => {
-      expect(typeof StateMachine.create).toBe('function');
+      expect(typeof stateMachine.create).toBe('function');
     });
   });
 
   describe('Checks the return of the "create" function', () => {
     test('The create function should return an Object', () => {
-      const sm = StateMachine.create();
+      const sm = stateMachine.create();
       expect(typeof sm).toBe('object')
     });
   
     test('The object should have the property: change', () => {
-      const sm = StateMachine.create();
+      const sm = stateMachine.create();
       expect(sm).toHaveProperty('change');
     });
   });
 
   describe('Tests the functionality of the created State Machine', () => {
     // Create the State Machine instance,
-    const sm = StateMachine.create();
+    const sm = stateMachine.create();
 
     // Define the states
     const cbA = jest.fn(async ({ change }) => change('state:bar'))
@@ -47,4 +47,32 @@ describe('StateMachine', () => {
       });
     });
   });
+
+  describe('Tests the `states` property', () => {
+    test('should have 2 states inside the states object', () => {
+      const sm = stateMachine.create();
+
+      // Register valid states
+      sm.add('state:foo', async () => {})
+      sm.add('state:bar', async () => {})
+
+      // dont start the chain reaction because we dont need it now
+      expect(Object.entries(sm.states).length).toBe(2)
+    })
+
+    test('the `states` property should be immutable', () => {
+      const sm = stateMachine.create();
+
+      // Register valid states
+      sm.add('state:foo', async () => {})
+      sm.add('state:bar', async () => {})
+
+      const snapshot = { ...sm.states }
+
+      sm.states['foo'] = 'bar'
+
+      // dont start the chain reaction because we dont need it now
+      expect(sm.states).toEqual(snapshot)
+    })
+  })
 });

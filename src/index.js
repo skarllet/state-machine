@@ -6,6 +6,13 @@ module.exports = {
 
     const change = to => states[to]({ change })
 
-    return { add, change }
+    return {
+      add,
+      change,
+
+      get states() {
+        return { ...states }
+      }
+    }
   }
 }
