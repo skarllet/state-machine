@@ -85,7 +85,7 @@ describe('state machine', () => {
       const sm = stateMachine.create();
       const state = 'state:foo'
 
-      sm.on('change', ({ payload: { to } }) => {
+      sm.on('change', ({ to }) => {
         expect(to).toMatch(state)
         done()
       })
